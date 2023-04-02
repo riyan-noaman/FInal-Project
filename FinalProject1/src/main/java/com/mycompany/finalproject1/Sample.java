@@ -52,8 +52,8 @@ public class Sample {
                             childEntry.getId(), childEntry.getName(), childEntry.getEntryType(), childEntry.getFullPath()));
         }
 
-        // Download an antry 
-        int entryIdToDownload = 25;
+        // Download an entry
+        int entryIdToDownload = 7;
         final String FILE_NAME = "DownloadedFile.txt";
         Consumer<InputStream> consumer = inputStream -> {
             File exportedFile = new File(FILE_NAME);
