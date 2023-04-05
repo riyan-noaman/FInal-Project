@@ -3,18 +3,16 @@ package com.mycompany.finalproject1;
 import java.util.*;
 import java.io.*;
 
-public class LocalFile extends ReadJSON{
-    private String path = super.getPath();
+public class LocalFile{
 
 
-    //initialize file path
+    public String path;
 
-    public void LocalEntry(String path) {
+    public void setPath(String path) {
         this.path = path;
     }
 
-    //get file path
-    public String getPath() {
+    public String getPath(){
         return path;
     }
     //boolean to see if path is a file

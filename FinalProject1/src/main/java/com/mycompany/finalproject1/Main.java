@@ -13,62 +13,68 @@ public class Main {
         //read json file
         json.readJson("C:\\Users\\riyan\\Documents\\projectFiles\\test_scenario.json");
 
-        System.out.println(json.getElemType());
+        //System.out.println(json.getElements());
 
-        switch (json.getElemType()) {
-            case "NameFilter":
+        for (int i = 0; i < json.elements.size(); i++) {
+
+            String element = json.elements.get(i);
+            switch (element) {
+                case "NameFilter":
                 /*
                    use variables in name filter class in order to run the filter
                 */
-                break;
-            case "LengthFilter":
+                    break;
+                case "LengthFilter":
                 /*
                    Take values and store into length class
                      fill parameters with the initialized variables
                 */
-                break;
-            case "ContentFilter":
-                break;
-            case "CountFilter":
+                    break;
+                case "ContentFilter":
+                    break;
+                case "CountFilter":
 
                 /*
                   Take values and store into count class
                       fill parameters with the initialized variables
                 */
 
-                break;
-            case "Split":
+                    break;
+                case "Split":
 
                 /*
                   Take values and store into split class
                       fill parameters with initialized variables
                 */
-                break;
-            case "List":
-                //create list object, fill in parameters with information from json file
-                ListElement list = new ListElement();
+                    break;
+                case "List":
+                    //create list object, fill in parameters with information from json file
 
-                list.setMaxValue(json.getMaxValue());
-                list.setPath(json.getPath());
-                list.fileCount();
+                    //if the process type is local do the following
+                    if (json.isLocal()) {
+                        ListElement list = new ListElement();
 
+                        list.setMaxValue(json.getMaxValue());
+                        list.setPath(json.getPath());
+                        list.fileCount();
+                    }
 
-            case "Rename":
+                case "Rename":
 
                 /*
                   Take values and store into rename class
                       fill parameters and initialized variables
                 */
-                break;
-            case "Print":
+                    break;
+                case "Print":
                 /*
                   Call print class
                 */
 
-                break;
+                    break;
+            }
         }
+
     }
-
-
 }
 

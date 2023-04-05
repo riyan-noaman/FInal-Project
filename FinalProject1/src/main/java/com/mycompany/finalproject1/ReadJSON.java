@@ -9,6 +9,7 @@ import java.io.*;
 import java.util.*;
 
 public class ReadJSON {
+
     //Initialize gson library
     private String fileType;
     private String name;
@@ -35,6 +36,10 @@ public class ReadJSON {
     private int maxValue;
     private String suffix;
     private String elemType;
+
+    private boolean isLocal;
+
+    public ArrayList<String> elements = new ArrayList<String>();
 
     public void readJson(String filePath) {
         Gson gson = new Gson();
@@ -104,6 +109,7 @@ public class ReadJSON {
                                 //get the path, string value
                                 this.path = inputEntry.get("path").getAsString();
                                 this.hasEntry = true;
+                                this.isLocal = true;
                                 //call local file object read file method enter path as parameter
                                 break;
                             case "remte":
@@ -111,6 +117,7 @@ public class ReadJSON {
                                 this.repoId = inputEntry.get("repositoryId").getAsString();
                                 this.entryId = inputEntry.get("entryId").getAsInt();
                                 this.hasEntry = true;
+                                this.isLocal = false;
                                 //call remote file object methods fill in parameters with above variables
                                 break;
                             default:
@@ -143,11 +150,12 @@ public class ReadJSON {
                             case "NameFilter":
                                 this.nameFilter = parameter.get("name").getAsString();
                                 this.nameValue = parameter.get("value").getAsString();
-
+                                //store element name in an array list
+                                this.elements.add("NameFilter");
                                 /*
                                     use variables in name filter class in order to run the filter
                                  */
-                                break;
+                               break;
                             case "LengthFilter":
 
                                 /*
@@ -175,10 +183,13 @@ public class ReadJSON {
                                  Take values and store into length class
                                     fill parameters with the initialized variables
                                 */
+
+                                this.elements.add("LengthFilter");
                                 break;
                             case "ContentFilter":
                                 this.contentFilter = parameter.get("name").getAsString();
                                 this.contentValue = parameter.get("value").getAsString();
+                                this.elements.add("ContentFilter");
                                 break;
                             case "CountFilter":
 
@@ -213,7 +224,7 @@ public class ReadJSON {
                                  Take values and store into count class
                                     fill parameters with the initialized variables
                                 */
-
+                                this.elements.add("CountFilter");
                                 break;
                             case "Split":
                                 this.split = parameter.get("name").getAsString();
@@ -228,10 +239,13 @@ public class ReadJSON {
                                   Take values and store into split class
                                     fill parameters with initialized variables
                                  */
+                                this.elements.add("Split");
                                 break;
                             case "List":
                                 this.max = parameter.get("name").getAsString();
                                 this.maxValue = parameter.get("value").getAsInt();
+                                this.elements.add("List");
+                                break;
                             case "Rename":
                                 this.rename = parameter.get("name").getAsString();
                                 this.suffix = parameter.get("value").getAsString();
@@ -240,12 +254,13 @@ public class ReadJSON {
                                    Take values and store into rename class
                                      fill parameters and initialized variables
                                  */
+                                this.elements.add("Rename");
                                 break;
                             case "Print":
                                 /*
                                     Call print class
                                  */
-
+                                this.elements.add("Print");
                                 break;
                         }
 
@@ -286,6 +301,10 @@ public class ReadJSON {
 
     public String getContentFilter() {
         return contentFilter;
+    }
+
+    public boolean isLocal() {
+        return isLocal;
     }
 
     public String getLength() {
@@ -359,5 +378,7 @@ public class ReadJSON {
     public String getContentValue() {
         return contentValue;
     }
+
+
 
 }

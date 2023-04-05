@@ -13,8 +13,13 @@ import java.util.*;
 
 public class ListElement extends LocalFile {
 
+    private int maxValue;
+    //create set method for maxValue
 
-    String path = super.getPath();
+    public void setMaxValue(int maxValue) {
+        this.maxValue = maxValue;
+    }
+
     //Override file counter method in order to print max number of file entries
     @Override
     public void fileCount() throws Exception {
@@ -26,24 +31,23 @@ public class ListElement extends LocalFile {
             //counter variable
             int counter = 0;
 
-            int max = getMaxValue();
 
             //convert directory to a list of entries (use require non null to make sure directory has content within it)
             for (File file : Objects.requireNonNull(directory.listFiles())) {
                 //if the element is a file or directory increase counter by one
                 if (file.isFile() || file.isDirectory()) {
                     counter++;
-                    if (counter <= max) {
+                    if (counter <= maxValue) {
                         System.out.println(file.getName());
                     } else {
                         break;
                     }
                 }
             }
-            if (counter <= max) {
+            if (counter <= maxValue) {
                 System.out.printf("\nAll %d entries accounted for", counter);
             } else {
-                System.out.printf("\n%d entries printed, %d entry/entries unaccounted for", max, (counter - max));
+                System.out.printf("\n%d entries printed.", maxValue);
             }
         } else {
             throw new Exception("Entry must be a directory to run the list element");
