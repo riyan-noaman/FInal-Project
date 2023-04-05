@@ -2,23 +2,49 @@ package com.mycompany.finalproject1;
 
 
 //import gson library in order to use functions to read the json file
+
 import com.google.gson.*;
 //import all java io and utilities libraries
 import java.io.*;
 import java.util.*;
 
 public class ReadJSON {
-    public static void main(String[] args) {
-        //Initialize gson library
-        Gson gson = new Gson();
+    //Initialize gson library
+    private String fileType;
+    private String name;
+    private boolean hasEntry;
+    private String path;
+    private String repoId;
+    private int entryId;
+    private String nameFilter;
+    private String nameValue;
+    private String length;
+    private String operator;
+    private String opValue;
+    private long lenValue;
+    private String contentFilter;
+    private String contentValue;
+    private String countFilter;
+    private String min;
+    private String keyValue;
+    private int minValue;
+    private String split;
+    private int linesValue;
+    private String rename;
+    private String max;
+    private int maxValue;
+    private String suffix;
+    private String elemType;
 
+    public void readJson(String filePath) {
+        Gson gson = new Gson();
         try {
             // Read the JSON file into a JsonObject using buffered reader
-            BufferedReader br = new BufferedReader(new FileReader("C:\\Users\\riyan\\Documents\\projectFiles\\Test_Scenario.json"));
+            BufferedReader br = new BufferedReader(new FileReader(filePath));
             JsonObject jsonObject = JsonParser.parseReader(br).getAsJsonObject();
 
             // Get the values from the JsonObject, name is a string, processing elements is an array
-            String name = jsonObject.get("name").getAsString();
+            this.name = jsonObject.get("name").getAsString();
             JsonArray processingElements = jsonObject.getAsJsonArray("processing_elements");
 
 
@@ -37,7 +63,7 @@ public class ReadJSON {
                         print
                     if none of the following values is found, the program will display an error "invalid elemen requested, please modify the file and try again"
                  */
-                String elemType = processingElement.get("type").getAsString();
+                this.elemType = processingElement.get("type").getAsString();
 
                 /*
                 get the input entries, type can only be 2 options
@@ -52,9 +78,9 @@ public class ReadJSON {
                 //      If empty, the previous entries that were printed should be used for the following filter
 
                 //create a boolean value which refers to having file path or not
-                boolean hasEntry = true;
-                if(inputEntries.isEmpty()){
-                    hasEntry = false;
+
+                if (inputEntries.isEmpty()) {
+                    this.hasEntry = false;
                     //FIND WAY TO USE PREVIOUS OUTPUT
                 }
                 JsonArray parameters = processingElement.getAsJsonArray("parameters");
@@ -69,28 +95,29 @@ public class ReadJSON {
                         JsonObject inputEntry = iterate.next().getAsJsonObject();
 
                         //create a string type to read the type (local or remote)
-                        String fileType = inputEntry.get("type").getAsString();
+                        this.fileType = inputEntry.get("type").getAsString();
 
                         //run a switch case method to read for local or remote type
 
                         switch (fileType) {
                             case "local":
                                 //get the path, string value
-                                String path = inputEntry.get("path").getAsString();
-                                hasEntry = true;
+                                this.path = inputEntry.get("path").getAsString();
+                                this.hasEntry = true;
                                 //call local file object read file method enter path as parameter
                                 break;
                             case "remte":
                                 //get repositoryId String and entryId int
-                                String repoId = inputEntry.get("repositoryId").getAsString();
-                                int entryId = inputEntry.get("entryId").getAsInt();
-                                hasEntry = true;
+                                this.repoId = inputEntry.get("repositoryId").getAsString();
+                                this.entryId = inputEntry.get("entryId").getAsInt();
+                                this.hasEntry = true;
                                 //call remote file object methods fill in parameters with above variables
                                 break;
                             default:
                                 //error value is incorrect
                                 throw new Exception("Invalid file read location, please modify file and try again. Files can only be read from local drive or remote (remte) drive");
                         }
+
 
                     }
                 }
@@ -114,8 +141,8 @@ public class ReadJSON {
 
                         switch (elemType) {
                             case "NameFilter":
-                                String nameFilter = parameter.get("name").getAsString();
-                                String nameValue = parameter.get("value").getAsString();
+                                this.nameFilter = parameter.get("name").getAsString();
+                                this.nameValue = parameter.get("value").getAsString();
 
                                 /*
                                     use variables in name filter class in order to run the filter
@@ -130,19 +157,19 @@ public class ReadJSON {
                                 */
 
                                 if (Objects.equals(parameter.get("name").getAsString(), "Length")) {
-                                    String length = parameter.get("name").getAsString();
+                                    this.length = parameter.get("name").getAsString();
                                 } else {
-                                    String operator = parameter.get("name").getAsString();
+                                    this.operator = parameter.get("name").getAsString();
                                 }
 
                                 //read value as a string and then use conditions to differentiate between strings and ints
-                                String opValue = parameter.get("value").getAsString();
+                                this.opValue = parameter.get("value").getAsString();
 
                                 //if the value is an integer, it is assumed to be the length else it is the operator variable
                                 //integer value is found by using regex values for integers
                                 if (opValue.matches("\\d+")) {
                                     //store the value as an integer since it is refering to length value
-                                    int lenValue = Integer.parseInt(opValue);
+                                    this.lenValue = Integer.parseInt(opValue);
                                 }
                                /*
                                  Take values and store into length class
@@ -150,8 +177,8 @@ public class ReadJSON {
                                 */
                                 break;
                             case "ContentFilter":
-                                String contentFilter = parameter.get("name").getAsString();
-                                String contentValue = parameter.get("value").getAsString();
+                                this.contentFilter = parameter.get("name").getAsString();
+                                this.contentValue = parameter.get("value").getAsString();
                                 break;
                             case "CountFilter":
 
@@ -162,19 +189,19 @@ public class ReadJSON {
                                 */
 
                                 if (Objects.equals(parameter.get("name").getAsString(), "Key")) {
-                                    String countFilter = parameter.get("name").getAsString();
+                                    this.countFilter = parameter.get("name").getAsString();
                                 } else {
-                                    String min = parameter.get("name").getAsString();
+                                    this.min = parameter.get("name").getAsString();
                                 }
 
                                 //read value as a string and then use conditions to differentiate between strings and ints
-                                String keyValue = parameter.get("value").getAsString();
+                                this.keyValue = parameter.get("value").getAsString();
 
                                 //if the value is an integer, it is assumed to be the length else it is the operator variable
                                 //integer value is found by using regex values for integers
                                 if (keyValue.matches("\\d+")) {
                                     //store the value as an integer since it is refering to length value
-                                    int minValue = Integer.parseInt(keyValue);
+                                    this.minValue = Integer.parseInt(keyValue);
 
                                     //need to make sure min value is greater than 0
                                     if (minValue < 0) {
@@ -189,8 +216,8 @@ public class ReadJSON {
 
                                 break;
                             case "Split":
-                                String split = parameter.get("name").getAsString();
-                                int linesValue = parameter.get("value").getAsInt();
+                                this.split = parameter.get("name").getAsString();
+                                this.linesValue = parameter.get("value").getAsInt();
 
                                 //check line value to make sure it is greater than 0
                                 if (linesValue < 0) {
@@ -202,9 +229,12 @@ public class ReadJSON {
                                     fill parameters with initialized variables
                                  */
                                 break;
+                            case "List":
+                                this.max = parameter.get("name").getAsString();
+                                this.maxValue = parameter.get("value").getAsInt();
                             case "Rename":
-                                String rename = parameter.get("name").getAsString();
-                                String suffix = parameter.get("value").getAsString();
+                                this.rename = parameter.get("name").getAsString();
+                                this.suffix = parameter.get("value").getAsString();
 
                                 /*
                                    Take values and store into rename class
@@ -228,5 +258,106 @@ public class ReadJSON {
             e.printStackTrace();
         }
     }
-}
 
+    //get methods for all variables
+    public String getElemType(){
+        return elemType;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public boolean isHasEntry() {
+        return hasEntry;
+    }
+
+    public int getEntryId() {
+        return entryId;
+    }
+
+    public long getLenValue() {
+        return lenValue;
+    }
+
+    public String getFileType() {
+        return fileType;
+    }
+
+    public String getContentFilter() {
+        return contentFilter;
+    }
+
+    public String getLength() {
+        return length;
+    }
+
+    public String getCountFilter() {
+        return countFilter;
+    }
+
+    public String getNameFilter() {
+        return nameFilter;
+    }
+
+    public String getNameValue() {
+        return nameValue;
+    }
+
+    public String getOperator() {
+        return operator;
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public String getRepoId() {
+        return repoId;
+    }
+
+    public int getMinValue() {
+        return minValue;
+    }
+
+    public int getLinesValue() {
+        return linesValue;
+    }
+
+    public String getKeyValue() {
+        return keyValue;
+    }
+
+    public String getRename() {
+        return rename;
+    }
+
+    public String getMin() {
+        return min;
+    }
+
+    public String getOpValue() {
+        return opValue;
+    }
+
+    public String getSplit() {
+        return split;
+    }
+
+    public int getMaxValue() {
+        return maxValue;
+    }
+
+    public String getMax() {
+        return max;
+    }
+
+    public String getSuffix() {
+        return suffix;
+    }
+
+    public String getContentValue() {
+        return contentValue;
+    }
+
+}
