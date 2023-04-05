@@ -3,8 +3,9 @@ package com.mycompany.finalproject1;
 import java.util.*;
 import java.io.*;
 
-public abstract class LocalFile {
-    private String path;
+public class LocalFile extends ReadJSON{
+    private String path = super.getPath();
+
 
     //initialize file path
 
@@ -72,9 +73,4 @@ public abstract class LocalFile {
         }
     }
 
-
-    /*
-           Override file counter method in order to print max number of file entries
-              Run the first for loop to count the number of files then run another one to print max number of files
-        */
 }
