@@ -15,10 +15,8 @@ public class ListElement extends LocalFile {
 
     String path = "C:\\Users\\riyan\\Documents\\projectFiles\\Directory_files";
 
-    /*
-       Override file counter method in order to print max number of file entries
-          Run the first for loop to count the number of files then run another one to print max number of files
-    */
+    //Override file counter method in order to print max number of file entries
+
 
     private int max = 0;
 
