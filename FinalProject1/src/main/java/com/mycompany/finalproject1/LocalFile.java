@@ -3,7 +3,7 @@ package com.mycompany.finalproject1;
 import java.util.*;
 import java.io.*;
 
-public class LocalFile {
+public abstract class LocalFile {
     private String path;
 
     //initialize file path
@@ -56,9 +56,9 @@ public class LocalFile {
 
 
     //counts number of files within a directory
-    public int fileCount() throws IOException{
+    public void fileCount() throws Exception {
         //path for directory
-        File directory = new File(getPath());
+        File directory = new File(path);
 
         //counter variable
         int counter = 0;
@@ -70,8 +70,11 @@ public class LocalFile {
                 counter++;
             }
         }
-        return counter;
     }
 
 
+    /*
+           Override file counter method in order to print max number of file entries
+              Run the first for loop to count the number of files then run another one to print max number of files
+        */
 }
